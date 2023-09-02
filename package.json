@@ -1,0 +1,23 @@
+{
+  "name": "peercast",
+  "version": "1.0.0",
+  "description": "Lightweight screen sharing and remote desktop application",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DressySaucer/peercast.git"
+  },
+  "keywords": [
+    "Remote",
+    "desktop"
+  ],
+  "author": "James Hardy",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DressySaucer/peercast/issues"
+  },
+  "homepage": "https://github.com/DressySaucer/peercast#readme"
+}
