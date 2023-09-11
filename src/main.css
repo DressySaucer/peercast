@@ -1,0 +1,33 @@
+*{
+  margin: 0;
+}
+
+#videos{
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+#video-player{
+  position: relative;
+  left: 50%;
+  transform: translate(-50%);
+  width: 50vw;
+  background-color: black;
+  object-fit: contain;
+}
+
+#connect-form{
+  position: absolute;
+  left: 50%;
+  transform-origin: center;
+  transform: translate(-50%);
+  width: 40vw;
+  display: flex;
+}
+
+#connect-button{}
+
+#connect-input{
+  min-width: 0;
+  flex: auto;
+}
