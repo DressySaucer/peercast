@@ -20,7 +20,7 @@ const constraints = {
 
 class Peer {
     constructor() {
-        this.socket = io('ws://94.6.174.31:8080/');
+        this.socket = io('ws://109.74.193.11:8080/');
         this.peerConnection = new RTCPeerConnection(servers);
 
         const socket = this.socket;
