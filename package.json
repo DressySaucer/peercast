@@ -1,0 +1,68 @@
+{
+  "name": "peercast-client",
+  "productName": "peercast-client",
+  "version": "1.0.0",
+  "description": "My Electron application description",
+  "main": "public/main.js",
+  "private": true,
+  "homepage": ".",
+  "dependencies": {
+    "@react-oauth/google": "^0.11.1",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "assert": "^2.1.0",
+    "crypto-browserify": "^3.12.0",
+    "https-browserify": "^1.0.0",
+    "os-browserify": "^0.3.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-icons": "^4.11.0",
+    "react-router-dom": "^6.16.0",
+    "react-scripts": "5.0.1",
+    "socket.io-client": "^4.7.2",
+    "stream-browserify": "^3.0.0",
+    "stream-http": "^3.2.0",
+    "url": "^0.11.3",
+    "web-vitals": "^2.1.4"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^6.4.2",
+    "@electron-forge/maker-dmg": "^6.4.2",
+    "@electron-forge/maker-zip": "^6.4.2",
+    "electron": "26.2.0",
+    "eslint": "^8.49.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.28.1",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "react-app-rewired": "^2.2.1"
+  },
+  "scripts": {
+    "start": "set PORT=3000 && react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "electron": "electron ."
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
