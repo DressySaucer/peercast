@@ -1,0 +1,22 @@
+{
+    "parser": "@typescript-eslint/parser",
+    "plugins": ["@typescript-eslint"],
+    "extends": [
+        "google",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:react/recommended",
+        "plugin:prettier/recommended"
+    ],
+    "rules": {
+        "object-curly-newline": [
+            "error",
+            {
+                "ObjectExpression": { "consistent": true, "multiline": true },
+                "ObjectPattern": { "consistent": true, "multiline": true },
+                "ImportDeclaration": "never",
+                "ExportDeclaration": { "multiline": true, "minProperties": 3 }
+            }
+        ]
+    },
+    "root": true
+}
