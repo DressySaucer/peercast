@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../../../styles/connect.css";
-import Peer from "../../lib/peer";
+import Peer from "../../../lib/peer";
 
 const Connect = () => {
     console.log(Peer.connectionId);

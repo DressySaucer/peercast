@@ -1,5 +1,4 @@
 import React from "react";
-import "../styles/App.css";
 // import Login from "./pages/login";
 import Connect from "./pages/connect";
 import Remote from "./pages/remote";

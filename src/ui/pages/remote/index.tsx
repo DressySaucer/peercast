@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
-import Peer from "../../lib/peer";
-import "../../../styles/remote.css";
+import Peer from "../../../lib/peer";
 
 const Remote = () => {
     useEffect(() => {

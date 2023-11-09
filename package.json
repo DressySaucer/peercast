@@ -4,7 +4,7 @@
     "bundleID": "com.peercast.Peercast",
     "version": "0.1.0",
     "description": "Electron-based remote desktop application",
-    "main": "out/index.js",
+    "main": "dist/main.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "host": "node scripts/host.js"

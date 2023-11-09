@@ -3,7 +3,7 @@ const path = require("path");
 
 module.exports = {
     mode: "development",
-    entry: "/home/jrpha/dev/pp/peercast/src/index.tsx",
+    entry: "/home/jrpha/dev/pp/peercast/src/ui/index.tsx",
     module: {
         rules: [
             {
