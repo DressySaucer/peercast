@@ -23,6 +23,60 @@ class Peer {
     mouseChannel: RTCDataChannel;
     remoteStream: MediaStream;
 
+    private async _handleConnectionRequest() {
+        console.log("peer this: ", this);
+        // Create stream object for receiving remote tracks
+        const localStream = await navigator.mediaDevices.getDisplayMedia({
+            audio: false,
+            video: true,
+        });
+
+        localStream.getTracks().forEach((track) => {
+            this.peerConnection.addTrack(track, localStream);
+        });
+
+        // Create SDP offer and set local description
+        const offer = await this.peerConnection.createOffer();
+        await this.peerConnection.setLocalDescription(offer);
+
+        console.log(this.peerConnection);
+
+        console.log("Offer:", offer);
+        this.socket.emit("Offer", JSON.stringify(offer));
+    }
+
+    private _sendICECandidate(ev: RTCPeerConnectionIceEvent) {
+        console.log("New ICE Candidate:", ev.candidate);
+        this.socket.emit("ICE Candidate", JSON.stringify(ev.candidate));
+    }
+
+    private _handleICECandidate(data: string) {
+        const candidate = JSON.parse(data);
+        this.peerConnection.addIceCandidate(candidate);
+    }
+
+    private _handleIncomingAnswer(data: string) {
+        const answer = JSON.parse(data);
+        this.peerConnection.setRemoteDescription(answer);
+    }
+
+    async _handleIncomingOffer(data: string) {
+        // Handle and assign recieved tracks to stream
+        this.peerConnection.ontrack = (event) => {
+            event.streams[0].getTracks().forEach((track) => {
+                this.remoteStream.addTrack(track);
+            });
+        };
+
+        const offer = JSON.parse(data);
+        await this.peerConnection.setRemoteDescription(offer);
+
+        const answer = await this.peerConnection.createAnswer();
+        console.log("Answer:", answer);
+        await this.peerConnection.setLocalDescription(answer);
+        this.socket.emit("Answer", JSON.stringify(answer));
+    }
+
     /**
      * @constructor
      */
@@ -42,61 +96,21 @@ class Peer {
             negotiated: true,
             id: 1,
         });
+
         this.remoteStream = new MediaStream();
 
-        const socket = this.socket;
-        const peerConnection = this.peerConnection;
+        this.peerConnection.onicecandidate = (ev) => this._sendICECandidate(ev);
 
-        socket.on("peer-connect", async () => {
-            // Create stream object for receiving remote tracks
-            const localStream = await navigator.mediaDevices.getDisplayMedia({
-                audio: false,
-                video: true,
-            });
-
-            localStream.getTracks().forEach((track) => {
-                peerConnection.addTrack(track, localStream);
-            });
-
-            // Create SDP offer and set local description
-            const offer = await peerConnection.createOffer();
-            await peerConnection.setLocalDescription(offer);
-
-            console.log(peerConnection);
-
-            console.log("Offer:", offer);
-            socket.emit("Offer", JSON.stringify(offer));
-        });
-
-        peerConnection.onicecandidate = (event) => {
-            console.log("New ICE Candidate:", event.candidate);
-            socket.emit("ICE Candidate", JSON.stringify(event.candidate));
-        };
-
-        socket.on("ICE Candidate", (candidate: string) => {
-            peerConnection.addIceCandidate(JSON.parse(candidate));
-        });
-
-        socket.on("Offer", async (data: string) => {
-            // Handle and assign recieved tracks to stream
-            this.peerConnection.ontrack = (event) => {
-                event.streams[0].getTracks().forEach((track) => {
-                    this.remoteStream.addTrack(track);
-                });
-            };
-
-            const offer = JSON.parse(data);
-            await peerConnection.setRemoteDescription(offer);
-
-            const answer = await peerConnection.createAnswer();
-            console.log("Answer:", answer);
-            await peerConnection.setLocalDescription(answer);
-            socket.emit("Answer", JSON.stringify(answer));
-        });
-
-        socket.on("Answer", (answer: string) => {
-            peerConnection.setRemoteDescription(JSON.parse(answer));
-        });
+        this.socket.on("peer-connect", () => this._handleConnectionRequest());
+        this.socket.on("Offer", (data: string) =>
+            this._handleIncomingOffer(data),
+        );
+        this.socket.on("Answer", (data: string) =>
+            this._handleIncomingAnswer(data),
+        );
+        this.socket.on("ICE Candidate", (data: string) =>
+            this._handleICECandidate(data),
+        );
     }
 
     async connect(targetId: number) {
@@ -104,4 +118,4 @@ class Peer {
     }
 }
 
-export default new Peer();
+export default Peer;

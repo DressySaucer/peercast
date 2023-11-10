@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
-import Peer from "../../../lib/peer";
+import globals from "../../../lib/globals";
 
 const Remote = () => {
     useEffect(() => {
-        console.log(Peer.remoteStream);
+        console.log(globals.peer!.remoteStream);
         let viewscreen = document.getElementById(
             "video-player",
         ) as HTMLMediaElement;
-        viewscreen.srcObject = Peer.remoteStream;
+        viewscreen.srcObject = globals.peer!.remoteStream;
     }, []);
     return (
         <div id="videos">

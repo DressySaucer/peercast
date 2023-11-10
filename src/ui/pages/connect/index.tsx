@@ -1,17 +1,20 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Peer from "../../../lib/peer";
+import globals from "../../../lib/globals";
 
 const Connect = () => {
-    console.log(Peer.connectionId);
+    globals.peer = new Peer();
+    console.log(globals.peer);
+
     const navigate = useNavigate();
     // const location = useLocation();
     const [targetID, setTargetID] = useState("");
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        Peer.connect(Number(targetID));
-        console.log(Peer.remoteStream);
+        globals.peer!.connect(Number(targetID)); // remember to remove null assertion
+        console.log(globals.peer!.remoteStream);
         navigate("/remote");
     };
 
@@ -26,7 +29,7 @@ const Connect = () => {
             <button id="connect-button" type="submit">
                 Connect
             </button>
-            <p id="connect-id">{Peer.connectionId}</p>
+            <p id="connect-id">{globals.peer.connectionId}</p>
         </form>
     );
 };
