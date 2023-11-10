@@ -8,6 +8,11 @@ const Remote = () => {
             "video-player",
         ) as HTMLMediaElement;
         viewscreen.srcObject = globals.peer!.remoteStream;
+
+        document.onkeydown = (ev: KeyboardEvent) => {
+            console.log(ev.code);
+            globals.peer?.keyChannel?.send(ev.code);
+        };
     }, []);
     return (
         <div id="videos">

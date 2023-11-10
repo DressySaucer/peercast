@@ -16,8 +16,8 @@ class Peer {
     connectionId: number;
     socket: Socket<any, any>; // remember to fix types
     peerConnection: RTCPeerConnection;
-    keyChannel: RTCDataChannel;
-    mouseChannel: RTCDataChannel;
+    keyChannel?: RTCDataChannel;
+    mouseChannel?: RTCDataChannel;
     remoteStream: MediaStream;
 
     private async _handleConnectionRequest() {
@@ -30,6 +30,11 @@ class Peer {
         localStream.getTracks().forEach((track) => {
             this.peerConnection.addTrack(track, localStream);
         });
+
+        /* Data channel creation is signalled inline through datachannel event */
+        this.keyChannel = this.peerConnection.createDataChannel("key");
+        this.keyChannel.onmessage = (ev) => console.log(ev);
+        this.mouseChannel = this.peerConnection.createDataChannel("mouse");
 
         const offer = await this.peerConnection.createOffer();
         await this.peerConnection.setLocalDescription(offer);
@@ -83,17 +88,17 @@ class Peer {
 
         /** Initialise RTCPeerConnection */
         this.peerConnection = new RTCPeerConnection(servers);
-        this.keyChannel = this.peerConnection.createDataChannel("key", {
-            negotiated: true,
-            id: 0,
-        });
-        this.mouseChannel = this.peerConnection.createDataChannel("mouse", {
-            negotiated: true,
-            id: 1,
-        });
 
         /** RTCPeerConnection event handlers */
-        this.peerConnection.onicecandidate = (ev) => this._sendICECandidate(ev);
+        this.peerConnection.onicecandidate = (ev: RTCPeerConnectionIceEvent) =>
+            this._sendICECandidate(ev);
+        this.peerConnection.ondatachannel = (ev: RTCDataChannelEvent) => {
+            console.log("Data channel event: ", ev);
+            if (ev.channel.label == "key") {
+                this.keyChannel = ev.channel;
+            }
+            if (ev.channel.label == "mouse") this.mouseChannel = ev.channel;
+        };
 
         /** Assigning handlers for socket.io signalling events */
         this.socket.on("peer-connect", () => this._handleConnectionRequest());
