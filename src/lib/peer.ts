@@ -12,9 +12,6 @@ const servers = {
     ],
 };
 
-// ws://109.74.193.11:8080/
-
-/** Abstraction of RTCPeerConnection that represents a basic peercast user **/
 class Peer {
     connectionId: number;
     socket: Socket<any, any>; // remember to fix types
@@ -25,7 +22,6 @@ class Peer {
 
     private async _handleConnectionRequest() {
         console.log("peer this: ", this);
-        // Create stream object for receiving remote tracks
         const localStream = await navigator.mediaDevices.getDisplayMedia({
             audio: false,
             video: true,
@@ -35,7 +31,6 @@ class Peer {
             this.peerConnection.addTrack(track, localStream);
         });
 
-        // Create SDP offer and set local description
         const offer = await this.peerConnection.createOffer();
         await this.peerConnection.setLocalDescription(offer);
 
@@ -61,7 +56,6 @@ class Peer {
     }
 
     async _handleIncomingOffer(data: string) {
-        // Handle and assign recieved tracks to stream
         this.peerConnection.ontrack = (event) => {
             event.streams[0].getTracks().forEach((track) => {
                 this.remoteStream.addTrack(track);
@@ -77,16 +71,17 @@ class Peer {
         this.socket.emit("Answer", JSON.stringify(answer));
     }
 
-    /**
-     * @constructor
-     */
     constructor() {
         this.connectionId = generateId();
+
+        /** Open socket.io socket to signalling server */
         this.socket = io("wss://server.peercast.co.uk/", {
             query: {
                 connectionId: this.connectionId,
             },
         });
+
+        /** Initialise RTCPeerConnection */
         this.peerConnection = new RTCPeerConnection(servers);
         this.keyChannel = this.peerConnection.createDataChannel("key", {
             negotiated: true,
@@ -97,10 +92,10 @@ class Peer {
             id: 1,
         });
 
-        this.remoteStream = new MediaStream();
-
+        /** RTCPeerConnection event handlers */
         this.peerConnection.onicecandidate = (ev) => this._sendICECandidate(ev);
 
+        /** Assigning handlers for socket.io signalling events */
         this.socket.on("peer-connect", () => this._handleConnectionRequest());
         this.socket.on("Offer", (data: string) =>
             this._handleIncomingOffer(data),
@@ -111,6 +106,8 @@ class Peer {
         this.socket.on("ICE Candidate", (data: string) =>
             this._handleICECandidate(data),
         );
+
+        this.remoteStream = new MediaStream();
     }
 
     async connect(targetId: number) {
