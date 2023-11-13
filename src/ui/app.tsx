@@ -3,7 +3,7 @@ import React from "react";
 import Connect from "./pages/connect";
 import Remote from "./pages/remote";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
     return (

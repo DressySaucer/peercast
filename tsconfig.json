@@ -1,21 +1,17 @@
 {
     "compilerOptions": {
-        "module": "esnext",
-        "moduleResolution": "node",
-        "target": "ES2022",
-        "esModuleInterop": true,
-        "resolveJsonModule": true,
-        "importHelpers": true,
-        "allowUnreachableCode": false,
-        "allowUnusedLabels": false,
-        "noImplicitReturns": true,
-        "noFallthroughCasesInSwitch": true,
+        "module": "commonjs",
         "noUnusedLocals": true,
+        "esModuleInterop": true,
         "sourceMap": true,
         "jsx": "react",
         "strict": true,
-        "outDir": "./out",
-        "useUnknownInCatchVariables": false
+        "skipLibCheck": true,
+        "outDir": "./dist",
+        "baseUrl": ".",
+        "paths": {
+            "*": ["node_modules/*"]
+        }
     },
-    "include": ["./src/**/*.tsx"]
+    "include": ["./src/electron/main.ts"]
 }

@@ -20,7 +20,7 @@ const createWindow = () => {
             });
         });
 
-    window.loadFile("./build/static/remote/index.html");
+    window.loadFile("dist/index.html");
 };
 
 /**
