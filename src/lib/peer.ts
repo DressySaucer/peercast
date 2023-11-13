@@ -14,13 +14,18 @@ const servers = {
 
 class Peer {
     connectionId: number;
-    socket: Socket<any, any>; // remember to fix types
+
+    socket: Socket; // remember to fix types
+
     peerConnection: RTCPeerConnection;
+
     keyChannel?: RTCDataChannel;
+
     mouseChannel?: RTCDataChannel;
+
     remoteStream: MediaStream;
 
-    private async _handleConnectionRequest() {
+    private async handleConnectionRequest() {
         console.log("peer this: ", this);
         const localStream = await navigator.mediaDevices.getDisplayMedia({
             audio: false,
@@ -45,22 +50,22 @@ class Peer {
         this.socket.emit("Offer", JSON.stringify(offer));
     }
 
-    private _sendICECandidate(ev: RTCPeerConnectionIceEvent) {
+    private sendICECandidate(ev: RTCPeerConnectionIceEvent) {
         console.log("New ICE Candidate:", ev.candidate);
         this.socket.emit("ICE Candidate", JSON.stringify(ev.candidate));
     }
 
-    private _handleICECandidate(data: string) {
+    private handleICECandidate(data: string) {
         const candidate = JSON.parse(data);
         this.peerConnection.addIceCandidate(candidate);
     }
 
-    private _handleIncomingAnswer(data: string) {
+    private handleIncomingAnswer(data: string) {
         const answer = JSON.parse(data);
         this.peerConnection.setRemoteDescription(answer);
     }
 
-    async _handleIncomingOffer(data: string) {
+    private async handleIncomingOffer(data: string) {
         this.peerConnection.ontrack = (event) => {
             event.streams[0].getTracks().forEach((track) => {
                 this.remoteStream.addTrack(track);
@@ -91,25 +96,25 @@ class Peer {
 
         /** RTCPeerConnection event handlers */
         this.peerConnection.onicecandidate = (ev: RTCPeerConnectionIceEvent) =>
-            this._sendICECandidate(ev);
+            this.sendICECandidate(ev);
         this.peerConnection.ondatachannel = (ev: RTCDataChannelEvent) => {
             console.log("Data channel event: ", ev);
-            if (ev.channel.label == "key") {
+            if (ev.channel.label === "key") {
                 this.keyChannel = ev.channel;
             }
-            if (ev.channel.label == "mouse") this.mouseChannel = ev.channel;
+            if (ev.channel.label === "mouse") this.mouseChannel = ev.channel;
         };
 
         /** Assigning handlers for socket.io signalling events */
-        this.socket.on("peer-connect", () => this._handleConnectionRequest());
+        this.socket.on("peer-connect", () => this.handleConnectionRequest());
         this.socket.on("Offer", (data: string) =>
-            this._handleIncomingOffer(data),
+            this.handleIncomingOffer(data),
         );
         this.socket.on("Answer", (data: string) =>
-            this._handleIncomingAnswer(data),
+            this.handleIncomingAnswer(data),
         );
         this.socket.on("ICE Candidate", (data: string) =>
-            this._handleICECandidate(data),
+            this.handleICECandidate(data),
         );
 
         this.remoteStream = new MediaStream();

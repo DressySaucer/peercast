@@ -34,7 +34,7 @@ const Login = () => {
 
         let p: keyof typeof params;
         for (p in params) {
-            var input = document.createElement("input");
+            const input = document.createElement("input");
             input.setAttribute("type", "hidden");
             input.setAttribute("name", p);
             input.setAttribute("value", params[p]);

@@ -4,7 +4,7 @@ import globals from "../../../lib/globals";
 const Remote = () => {
     useEffect(() => {
         console.log(globals.peer!.remoteStream);
-        let viewscreen = document.getElementById(
+        const viewscreen = document.getElementById(
             "video-player",
         ) as HTMLMediaElement;
         viewscreen.srcObject = globals.peer!.remoteStream;
