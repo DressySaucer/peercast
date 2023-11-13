@@ -4,7 +4,7 @@
     "bundleID": "com.peercast.Peercast",
     "version": "0.1.0",
     "description": "Electron-based remote desktop application",
-    "main": "dist/main.js",
+    "main": "dist/electron/main.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "build:dev": "webpack --config webpack.dev.js",

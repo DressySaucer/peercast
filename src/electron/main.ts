@@ -1,4 +1,5 @@
 import { app, BrowserWindow, desktopCapturer } from "electron";
+import path from "path";
 
 const createWindow = () => {
     const window = new BrowserWindow({
@@ -7,6 +8,7 @@ const createWindow = () => {
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false,
+            preload: path.join(__dirname, "preload.js"),
         },
     });
 
@@ -20,7 +22,7 @@ const createWindow = () => {
             });
         });
 
-    window.loadFile("dist/index.html");
+    window.loadFile(path.join(__dirname, "index.html"));
 };
 
 /**

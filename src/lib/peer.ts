@@ -1,4 +1,8 @@
 import { Socket, io } from "socket.io-client";
+import {
+    ChromiumGetUserMedia,
+    ChromiumMediaStreamConstraints,
+} from "./desktop-capture";
 import generateId from "./connection-id";
 
 const servers = {
@@ -26,11 +30,19 @@ class Peer {
     remoteStream: MediaStream;
 
     private async handleConnectionRequest() {
-        console.log("peer this: ", this);
-        const localStream = await navigator.mediaDevices.getDisplayMedia({
+        const constraints: ChromiumMediaStreamConstraints = {
             audio: false,
-            video: true,
-        });
+            video: {
+                mandatory: {
+                    chromeMediaSource: "desktop",
+                },
+            },
+        };
+
+        console.log("peer this: ", this);
+        const localStream = await (<ChromiumGetUserMedia>(
+            navigator.mediaDevices.getUserMedia
+        ))(constraints);
 
         localStream.getTracks().forEach((track) => {
             this.peerConnection.addTrack(track, localStream);

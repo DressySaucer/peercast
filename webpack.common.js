@@ -2,7 +2,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
 
 module.exports = {
-    entry: "/home/jrpha/dev/pp/peercast/src/ui/index.tsx",
+    entry: "./src/ui/index.tsx",
     module: {
         rules: [
             {
