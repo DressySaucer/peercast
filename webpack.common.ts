@@ -1,7 +1,8 @@
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const path = require("path");
+import HtmlWebpackPlugin from "html-webpack-plugin";
+import path from "path";
+import webpack from "webpack";
 
-module.exports = {
+const commonConfig: webpack.Configuration = {
     entry: "./src/ui/index.tsx",
     module: {
         rules: [
@@ -31,3 +32,5 @@ module.exports = {
         clean: true,
     },
 };
+
+export default commonConfig;

@@ -1,9 +1,9 @@
-const webpack = require("webpack");
-const middleware = require("webpack-dev-middleware");
-const express = require("express");
-const config = require("../webpack.config");
-const https = require("https");
-const fs = require("fs");
+import webpack from "webpack";
+import middleware from "webpack-dev-middleware";
+import express from "express";
+import config from "../webpack.dev";
+import https from "https";
+import fs from "fs";
 
 const app = express();
 
