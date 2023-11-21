@@ -28,7 +28,7 @@ const commonConfig: webpack.Configuration = {
     plugins: [new HtmlWebpackPlugin({ template: "./static/index.html" })],
     output: {
         filename: "[name].bundle.js",
-        path: path.resolve(__dirname, "dist"),
+        path: path.resolve(__dirname, "dist", "static"),
         clean: true,
     },
 };

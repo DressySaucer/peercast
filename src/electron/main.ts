@@ -8,7 +8,7 @@ const createWindow = () => {
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false,
-            preload: path.join(__dirname, "preload.js"),
+            preload: path.resolve(__dirname, "preload.js"),
         },
     });
 
@@ -22,7 +22,7 @@ const createWindow = () => {
             });
         });
 
-    window.loadFile(path.join(__dirname, "index.html"));
+    window.loadFile(path.resolve(__dirname, "..", "static", "index.html"));
 };
 
 /**
