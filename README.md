@@ -1,3 +1,3 @@
 # peercast
 
-**peercast** is a lightweight and fast WebRTC-based screen sharing and remote desktop application
+**peercast** is a WebRTC-based screen sharing and remote desktop application for MacOS and Windows

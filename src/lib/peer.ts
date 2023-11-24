@@ -48,11 +48,6 @@ class Peer {
             this.peerConnection.addTrack(track, localStream);
         });
 
-        /* Data channel creation is signalled inline through datachannel event */
-        this.keyChannel = this.peerConnection.createDataChannel("key");
-        this.keyChannel.onmessage = (ev) => console.log(ev);
-        this.mouseChannel = this.peerConnection.createDataChannel("mouse");
-
         const offer = await this.peerConnection.createOffer();
         await this.peerConnection.setLocalDescription(offer);
 
