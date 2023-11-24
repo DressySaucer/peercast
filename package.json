@@ -6,11 +6,11 @@
     "description": "Electron-based remote desktop application",
     "main": "dist/electron/main.js",
     "scripts": {
+        "run": "electron .",
         "test": "echo \"Error: no test specified\" && exit 1",
-        "build:dev": "webpack --config webpack.dev.js",
-        "build:prod": "webpack --config webpack.prod.js",
-        "serve:dev": "ts-node scripts/serve.ts",
-        "serve:prod": "webpack serve --config webpack.prod.js"
+        "build:dev": "webpack --config webpack.dev.ts && tsc",
+        "build:prod": "webpack --config webpack.prod.ts && tsc",
+        "serve": "ts-node scripts/serve.ts"
     },
     "repository": {
         "type": "git",
@@ -24,6 +24,7 @@
     "homepage": "https://github.com/DressySaucer/peercast#readme",
     "devDependencies": {
         "@electron-forge/cli": "^6.4.2",
+        "@react-oauth/google": "^0.11.1",
         "@types/react": "^18.2.37",
         "@types/react-dom": "^18.2.15",
         "@types/react-router-dom": "^5.3.3",
@@ -40,24 +41,22 @@
         "eslint-plugin-react-hooks": "^4.6.0",
         "express": "^4.18.2",
         "html-webpack-plugin": "^5.5.3",
+        "node-addon-api": "^7.0.0",
         "prettier": "^3.0.3",
         "react": "^18.2.0",
+        "react-dom": "^18.2.0",
         "react-router": "^6.18.0",
+        "react-router-dom": "^6.18.0",
+        "socket.io": "^4.7.2",
+        "socket.io-client": "^4.7.2",
         "style-loader": "^3.3.3",
         "ts-loader": "^9.5.0",
+        "ts-node": "^10.9.1",
         "typescript": "^5.2.2",
         "webpack": "^5.89.0",
         "webpack-cli": "^5.1.4",
         "webpack-dev-middleware": "^6.1.1",
         "webpack-dev-server": "^4.15.1",
         "webpack-merge": "^5.10.0"
-    },
-    "dependencies": {
-        "@react-oauth/google": "^0.11.1",
-        "react-dom": "^18.2.0",
-        "react-router-dom": "^6.18.0",
-        "socket.io": "^4.7.2",
-        "socket.io-client": "^4.7.2",
-        "ts-node": "^10.9.1"
     }
 }

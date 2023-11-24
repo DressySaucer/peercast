@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Socket, io } from "socket.io-client";
 import {
     ChromiumGetUserMedia,
@@ -47,6 +48,14 @@ class Peer {
         localStream.getTracks().forEach((track) => {
             this.peerConnection.addTrack(track, localStream);
         });
+
+        /* Data channel creation is signalled inline through datachannel event */
+        this.keyChannel = this.peerConnection.createDataChannel("key");
+        this.keyChannel.onmessage = (ev) => {
+            console.log(ev);
+            window.vinput.keypress(ev.data);
+        };
+        this.mouseChannel = this.peerConnection.createDataChannel("mouse");
 
         const offer = await this.peerConnection.createOffer();
         await this.peerConnection.setLocalDescription(offer);

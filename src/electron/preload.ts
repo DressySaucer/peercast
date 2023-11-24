@@ -1,10 +1,19 @@
+// @ts-nocheck
 import { ipcRenderer } from "electron";
 import {
     ChromiumGetUserMedia,
     ChromiumMediaStreamConstraints,
 } from "../lib/desktop-capture";
+import { execFile } from "child_process";
 
-ipcRenderer.on("SET_SOURCE", async (_event, sourceId) => {
+window.MyApi = {
+    vinput: (key: string) => {
+        console.log(key);
+        execFile("./vinput", [key], {}, (err, stdout) => console.log(stdout));
+    },
+};
+
+ipcRenderer.on("SET_SOURCE", async (event, sourceId) => {
     const constraints: ChromiumMediaStreamConstraints = {
         audio: false,
         video: {

@@ -9,6 +9,19 @@ const Remote = () => {
         ) as HTMLMediaElement;
         viewscreen.srcObject = globals.peer!.remoteStream;
 
+        /**
+        setInterval(() => {
+            console.log(
+                "Content hint: ",
+                globals.peer!.remoteStream.getVideoTracks()[0].contentHint,
+            );
+
+            globals.peer!.peerConnection.getStats().then((stats) => {
+                stats.forEach((stat) => console.log(stat));
+            });
+        }, 1000);
+        */
+
         document.onkeydown = (ev: KeyboardEvent) => {
             console.log(ev.code);
             globals.peer?.keyChannel?.send(ev.code);
