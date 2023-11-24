@@ -41,6 +41,7 @@
         "express": "^4.18.2",
         "html-webpack-plugin": "^5.5.3",
         "node-addon-api": "^7.0.0",
+        "node-gyp": "^10.0.1",
         "prettier": "^3.0.3",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",

@@ -4,7 +4,17 @@ import {
     ChromiumGetUserMedia,
     ChromiumMediaStreamConstraints,
 } from "../lib/desktop-capture";
-import { execFile } from "child_process";
+import vinput from "../bin/vinput.node";
+
+interface vinputAPI {
+    keypress: (key: string) => undefined;
+}
+
+declare global {
+    interface Window {
+        vinput: vinputAPI;
+    }
+}
 
 window.MyApi = {
     vinput: (key: string) => {
@@ -37,6 +47,7 @@ ipcRenderer.on("SET_SOURCE", async (event, sourceId) => {
         handleError(e);
     }
 });
+
 function handleStream(stream: MediaStream) {
     const video = document.querySelector("video");
     if (!(video instanceof HTMLElement)) return;
@@ -47,3 +58,7 @@ function handleStream(stream: MediaStream) {
 function handleError(e: unknown) {
     console.log(e);
 }
+
+window.vinput = {
+    keypress: (key: string) => vinput.keypress(key),
+};

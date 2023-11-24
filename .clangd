@@ -1,0 +1,6 @@
+CompileFlags:
+  Add: [
+    "-I/usr/local/include/node",
+    "-I/users/jrpha/dev/peercast-test/node_modules/node-addon-api",
+    "-std=c++20"
+  ]

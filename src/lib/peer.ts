@@ -6,6 +6,14 @@ import {
 } from "./desktop-capture";
 import generateId from "./connection-id";
 
+declare global {
+    interface Window {
+        vinput: {
+            keypress: (key: string) => undefined;
+        };
+    }
+}
+
 const servers = {
     iceServers: [
         {
