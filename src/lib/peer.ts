@@ -46,6 +46,8 @@ class Peer {
         ))(constraints);
 
         localStream.getTracks().forEach((track) => {
+            /** contentHint parameter can raise low fps cap on some codecs used by WebRTC */
+            track.contentHint = "motion";
             this.peerConnection.addTrack(track, localStream);
         });
 
@@ -56,6 +58,17 @@ class Peer {
             window.vinput.keypress(ev.data);
         };
         this.mouseChannel = this.peerConnection.createDataChannel("mouse");
+
+        console.log(RTCRtpReceiver.getCapabilities("video"));
+        const codecs: RTCRtpCodecCapability[] = [];
+        RTCRtpReceiver.getCapabilities("video")?.codecs.forEach((codec) => {
+            if (codec.mimeType == "video/VP8") codecs.push(codec);
+            console.log("Codecs: ", codecs);
+            this.peerConnection.getTransceivers().forEach((transceiver) => {
+                console.log(transceiver);
+                transceiver.setCodecPreferences(codecs);
+            });
+        });
 
         const offer = await this.peerConnection.createOffer();
         await this.peerConnection.setLocalDescription(offer);
