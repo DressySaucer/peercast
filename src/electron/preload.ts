@@ -1,27 +1,22 @@
-// @ts-nocheck
-import { ipcRenderer } from "electron";
+import { ipcRenderer, contextBridge } from "electron";
 import {
     ChromiumGetUserMedia,
     ChromiumMediaStreamConstraints,
 } from "../lib/desktop-capture";
 import vinput from "../bin/vinput.node";
+import { VInputAPI } from "../lib/api";
 
-interface vinputAPI {
-    keypress: (key: string) => undefined;
-}
-
-declare global {
-    interface Window {
-        vinput: vinputAPI;
-    }
-}
-
-window.MyApi = {
-    vinput: (key: string) => {
-        console.log(key);
-        execFile("./vinput", [key], {}, (err, stdout) => console.log(stdout));
-    },
+const vinputAPI: VInputAPI = {
+    keyUp: vinput.keyUp,
+    keyDown: vinput.keyDown,
+    keyPress: vinput.keyPress,
+    mouseMove: vinput.mouseMove,
+    mouseUp: vinput.mouseClick,
+    mouseDown: vinput.mouseDown,
+    mouseClick: vinput.mouseClick,
 };
+
+contextBridge.exposeInMainWorld("vinput", vinputAPI);
 
 ipcRenderer.on("SET_SOURCE", async (event, sourceId) => {
     const constraints: ChromiumMediaStreamConstraints = {
@@ -30,10 +25,10 @@ ipcRenderer.on("SET_SOURCE", async (event, sourceId) => {
             mandatory: {
                 chromeMediaSource: "desktop",
                 chromeMediaSourceId: sourceId,
-                minWidth: 1280,
-                maxWidth: 1280,
-                minHeight: 720,
-                maxHeight: 720,
+                minWidth: 1440,
+                maxWidth: 1440,
+                minHeight: 779,
+                maxHeight: 779,
             },
         },
     };
@@ -58,7 +53,3 @@ function handleStream(stream: MediaStream) {
 function handleError(e: unknown) {
     console.log(e);
 }
-
-window.vinput = {
-    keypress: (key: string) => vinput.keypress(key),
-};

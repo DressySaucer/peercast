@@ -7,7 +7,6 @@ const createWindow = () => {
         height: 600,
         webPreferences: {
             nodeIntegration: true,
-            contextIsolation: false,
             preload: path.resolve(__dirname, "preload.js"),
         },
     });

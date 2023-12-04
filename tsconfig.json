@@ -14,5 +14,5 @@
             "*": ["node_modules/*"]
         }
     },
-    "include": ["./src/electron/*.ts"]
+    "include": ["./src/electron/*.ts", "./src/**/*.d.ts"]
 }

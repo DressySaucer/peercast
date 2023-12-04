@@ -24,7 +24,33 @@ const Remote = () => {
 
         document.onkeydown = (ev: KeyboardEvent) => {
             console.log(ev.code);
-            globals.peer?.keyChannel?.send(ev.code);
+            globals.peer?.keyChannel?.send("0" + ev.code + "1");
+        };
+
+        document.onkeyup = (ev: KeyboardEvent) => {
+            console.log(ev.code);
+            globals.peer?.keyChannel?.send("0" + ev.code + "0");
+        };
+
+        document.onmousemove = (ev: MouseEvent) => {
+            console.log("(", ev.clientX, ", ", ev.clientY, ")");
+            globals.peer?.mouseChannel?.send(
+                JSON.stringify({ x: ev.clientX, y: ev.clientY }),
+            );
+        };
+
+        document.onmousedown = (ev: MouseEvent) => {
+            console.log("(", ev.clientX, ", ", ev.clientY, ")");
+            globals.peer?.keyChannel?.send(
+                "1" + JSON.stringify({ x: ev.clientX, y: ev.clientY }) + "1",
+            );
+        };
+
+        document.onmouseup = (ev: MouseEvent) => {
+            console.log("(", ev.clientX, ", ", ev.clientY, ")");
+            globals.peer?.keyChannel?.send(
+                "1" + JSON.stringify({ x: ev.clientX, y: ev.clientY }) + "0",
+            );
         };
     }, []);
     return (
