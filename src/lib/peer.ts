@@ -1,18 +1,10 @@
-// @ts-nocheck
 import { Socket, io } from "socket.io-client";
 import {
     ChromiumGetUserMedia,
     ChromiumMediaStreamConstraints,
 } from "./desktop-capture";
 import generateId from "./connection-id";
-
-declare global {
-    interface Window {
-        vinput: {
-            keypress: (key: string) => undefined;
-        };
-    }
-}
+import "./api";
 
 const servers = {
     iceServers: [
@@ -63,9 +55,26 @@ class Peer {
         this.keyChannel = this.peerConnection.createDataChannel("key");
         this.keyChannel.onmessage = (ev) => {
             console.log(ev);
-            window.vinput.keypress(ev.data);
+            const dataLength = ev.data.length;
+            const isMouseClick = ev.data[0];
+            const isDown = ev.data[dataLength - 1];
+            const message = ev.data.slice(1, -1);
+            console.log("Message: ", message);
+            if (!isMouseClick) {
+                if (!isDown) window.vinput.keyUp(message);
+                else window.vinput.keyDown(message);
+            } else {
+                const coords = JSON.parse(message);
+                if (isDown) window.vinput.mouseUp(coords.x, coords.y);
+                else window.vinput.mouseDown(coords.x, coords.y);
+            }
         };
         this.mouseChannel = this.peerConnection.createDataChannel("mouse");
+        this.mouseChannel.onmessage = (ev) => {
+            console.log(ev);
+            const coords = JSON.parse(ev.data);
+            window.vinput.mouseMove(coords.x, coords.y);
+        };
 
         console.log(RTCRtpReceiver.getCapabilities("video"));
         const codecs: RTCRtpCodecCapability[] = [];

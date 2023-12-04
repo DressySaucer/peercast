@@ -3,17 +3,17 @@
         {
             "target_name": "vinput",
             "include_dirs": [
-                "/Users/jrpha/dev/peercast-test/node_modules/node-addon-api"
+                "/Users/jrpha/dev/peercast/node_modules/node-addon-api"
             ],
             "cflags": [
                 "-std=c++20"
             ],
-            "sources": [ "src/lib/vinput/keypress.cpp", "src/lib/vinput/keycode.cpp" ],
+            "sources": [ "src/lib/vinput/vinput.cpp", "src/lib/vinput/keyboard.cpp", "src/lib/vinput/mouse.cpp", "src/lib/vinput/keycode.cpp" ],
             "link_settings": {
                 "libraries": [
                     "-framework Carbon",
-                    "-framework CoreFoundation",
-                    "-framework ApplicationServices"
+                    "-framework CoreGraphics",
+                    "-framework CoreFoundation"
                 ]
             },
             "defines": [ "NAPI_DISABLE_CPP_EXCEPTIONS" ],
