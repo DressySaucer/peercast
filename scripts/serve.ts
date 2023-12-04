@@ -2,7 +2,8 @@ import webpack from "webpack";
 import middleware from "webpack-dev-middleware";
 import express from "express";
 import config from "../webpack.dev";
-import http from "http";
+import https from "https";
+import fs from "fs";
 
 const app = express();
 
@@ -16,13 +17,11 @@ app.use(
     }),
 );
 
-/*
 const options = {
     key: fs.readFileSync("./certs/privkey.pem"),
     cert: fs.readFileSync("./certs/fullchain.pem"),
 };
-*/
 
-http.createServer(app).listen(PORT, () =>
-    console.log(`Example app listening on port ${PORT}!`),
-);
+https
+    .createServer(options, app)
+    .listen(PORT, () => console.log(`Example app listening on port ${PORT}!`));
