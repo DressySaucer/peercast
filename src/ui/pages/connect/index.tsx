@@ -13,6 +13,7 @@ const Connect = () => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        if (!targetID) return;
         globals.peer!.connect(Number(targetID)); // remember to remove null assertion
         console.log(globals.peer!.remoteStream);
         navigate("/remote");
