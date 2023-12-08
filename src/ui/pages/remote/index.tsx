@@ -24,32 +24,32 @@ const Remote = () => {
 
         document.onkeydown = (ev: KeyboardEvent) => {
             console.log(ev.code);
-            globals.peer?.keyChannel?.send("0" + ev.code + "1");
+            globals.peer?.keyChannel?.send(JSON.stringify([0, 1, ev.code]));
         };
 
         document.onkeyup = (ev: KeyboardEvent) => {
             console.log(ev.code);
-            globals.peer?.keyChannel?.send("0" + ev.code + "0");
+            globals.peer?.keyChannel?.send(JSON.stringify([0, 0, ev.code]));
         };
 
         document.onmousemove = (ev: MouseEvent) => {
             console.log("(", ev.clientX, ", ", ev.clientY, ")");
             globals.peer?.mouseChannel?.send(
-                JSON.stringify({ x: ev.clientX, y: ev.clientY }),
+                JSON.stringify([ev.clientX, ev.clientY]),
             );
         };
 
         document.onmousedown = (ev: MouseEvent) => {
             console.log("(", ev.clientX, ", ", ev.clientY, ")");
             globals.peer?.keyChannel?.send(
-                "1" + JSON.stringify({ x: ev.clientX, y: ev.clientY }) + "1",
+                JSON.stringify([1, 1, ev.clientX, ev.clientY]),
             );
         };
 
         document.onmouseup = (ev: MouseEvent) => {
             console.log("(", ev.clientX, ", ", ev.clientY, ")");
             globals.peer?.keyChannel?.send(
-                "1" + JSON.stringify({ x: ev.clientX, y: ev.clientY }) + "0",
+                JSON.stringify([1, 0, ev.clientX, ev.clientY]),
             );
         };
     }, []);

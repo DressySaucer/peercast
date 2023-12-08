@@ -55,25 +55,23 @@ class Peer {
         this.keyChannel = this.peerConnection.createDataChannel("key");
         this.keyChannel.onmessage = (ev) => {
             console.log(ev);
-            const dataLength = ev.data.length;
-            const isMouseClick = ev.data[0];
-            const isDown = ev.data[dataLength - 1];
-            const message = ev.data.slice(1, -1);
-            console.log("Message: ", message);
+            const data = JSON.parse(ev.data);
+            const isMouseClick = data[0];
+            const isDown = data[1];
+            console.log("Message: ", data);
             if (!isMouseClick) {
-                if (!isDown) window.vinput.keyUp(message);
-                else window.vinput.keyDown(message);
+                if (!isDown) window.vinput.keyUp(data[2]);
+                else window.vinput.keyDown(data[2]);
             } else {
-                const coords = JSON.parse(message);
-                if (isDown) window.vinput.mouseUp(coords.x, coords.y);
-                else window.vinput.mouseDown(coords.x, coords.y);
+                if (!isDown) window.vinput.mouseUp(data[2], data[3]);
+                else window.vinput.mouseDown(data[2], data[3]);
             }
         };
         this.mouseChannel = this.peerConnection.createDataChannel("mouse");
         this.mouseChannel.onmessage = (ev) => {
             console.log(ev);
             const coords = JSON.parse(ev.data);
-            window.vinput.mouseMove(coords.x, coords.y);
+            window.vinput.mouseMove(coords[0], coords[1]);
         };
 
         console.log(RTCRtpReceiver.getCapabilities("video"));
