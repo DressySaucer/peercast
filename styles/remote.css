@@ -1,8 +1,5 @@
-#videos {
-}
-
 #video-player {
     width: 100%;
     background-color: black;
-    object-fit: contain;
+    display: block;
 }

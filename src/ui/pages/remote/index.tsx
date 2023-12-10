@@ -61,11 +61,7 @@ const Remote = () => {
             );
         };
     }, []);
-    return (
-        <div id="videos">
-            <video id="video-player" autoPlay></video>
-        </div>
-    );
+    return <video id="video-player" autoPlay></video>;
 };
 
 export default Remote;
