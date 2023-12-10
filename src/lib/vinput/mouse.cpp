@@ -33,3 +33,9 @@ void postMouseUp(int x, int y) {
     CGEventPost(kCGHIDEventTap, mouseEvent);
     CFRelease(mouseEvent);
 }
+
+void postScroll(int pixelsY, int pixelsX) {
+    CGEventRef scrollEvent = CGEventCreateScrollWheelEvent(NULL, kCGScrollEventUnitPixel, 1, pixelsY, pixelsX);
+    CGEventPost(kCGHIDEventTap, scrollEvent);
+    CFRelease(scrollEvent);
+}

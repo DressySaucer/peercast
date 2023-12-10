@@ -70,8 +70,13 @@ class Peer {
         this.mouseChannel = this.peerConnection.createDataChannel("mouse");
         this.mouseChannel.onmessage = (ev) => {
             console.log(ev);
-            const coords = JSON.parse(ev.data);
-            window.vinput.mouseMove(coords[0], coords[1]);
+            const data = JSON.parse(ev.data);
+            const isScroll = data[0];
+            if (!isScroll) {
+                window.vinput.mouseMove(data[1], data[2]);
+            } else {
+                window.vinput.scroll(data[1], data[2]);
+            }
         };
 
         console.log(RTCRtpReceiver.getCapabilities("video"));

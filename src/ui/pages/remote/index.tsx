@@ -32,13 +32,6 @@ const Remote = () => {
             globals.peer?.keyChannel?.send(JSON.stringify([0, 0, ev.code]));
         };
 
-        document.onmousemove = (ev: MouseEvent) => {
-            console.log("(", ev.clientX, ", ", ev.clientY, ")");
-            globals.peer?.mouseChannel?.send(
-                JSON.stringify([ev.clientX, ev.clientY]),
-            );
-        };
-
         document.onmousedown = (ev: MouseEvent) => {
             console.log("(", ev.clientX, ", ", ev.clientY, ")");
             globals.peer?.keyChannel?.send(
@@ -50,6 +43,21 @@ const Remote = () => {
             console.log("(", ev.clientX, ", ", ev.clientY, ")");
             globals.peer?.keyChannel?.send(
                 JSON.stringify([1, 0, ev.clientX, ev.clientY]),
+            );
+        };
+
+        document.onmousemove = (ev: MouseEvent) => {
+            console.log("(", ev.clientX, ", ", ev.clientY, ")");
+            globals.peer?.mouseChannel?.send(
+                JSON.stringify([0, ev.clientX, ev.clientY]),
+            );
+        };
+
+        document.onwheel = (ev: WheelEvent) => {
+            /** assumes ev.deltaMode === 0 */
+            globals.peer?.mouseChannel?.send(
+                /** i know it's the wrong way round */
+                JSON.stringify([1, ev.deltaY, ev.deltaX]),
             );
         };
     }, []);

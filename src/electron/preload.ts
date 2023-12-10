@@ -14,6 +14,7 @@ const vinputAPI: VInputAPI = {
     mouseUp: vinput.mouseClick,
     mouseDown: vinput.mouseDown,
     mouseClick: vinput.mouseClick,
+    scroll: vinput.scroll,
 };
 
 contextBridge.exposeInMainWorld("vinput", vinputAPI);

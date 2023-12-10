@@ -6,4 +6,5 @@ declare module "*vinput.node" {
     function mouseClick(x: number, y: number): undefined;
     function mouseDown(x: number, y: number): undefined;
     function mouseUp(x: number, y: number): undefined;
+    function scroll(pixelsY: number, pixelsX: number): undefined;
 }

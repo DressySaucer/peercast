@@ -54,6 +54,12 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
         postMouseUp(x, y);
         return info.Env().Undefined();
     });
+    SET_EXPORT("scroll", [](const Napi::CallbackInfo& info) {
+        int pixelsY = info[0].ToNumber();
+        int pixelsX = info[1].ToNumber();
+        postScroll(pixelsY, pixelsX);
+        return info.Env().Undefined();
+    });
     return exports;
 }
 

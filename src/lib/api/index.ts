@@ -6,6 +6,7 @@ export interface VInputAPI {
     mouseUp: (x: number, y: number) => undefined;
     mouseDown: (x: number, y: number) => undefined;
     mouseClick: (x: number, y: number) => undefined;
+    scroll: (pixelsY: number, pixelsX: number) => undefined;
 }
 
 declare global {
