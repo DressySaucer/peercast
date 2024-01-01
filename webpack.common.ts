@@ -24,10 +24,6 @@ const commonConfig: webpack.Configuration = {
     },
     resolve: {
         extensions: [".js", ".ts", ".tsx"],
-        fallback: {
-            crypto: require.resolve("crypto-browserify"),
-            stream: require.resolve("stream-browserify"),
-        },
     },
     plugins: [new HtmlWebpackPlugin({ template: "./static/index.html" })],
     output: {
