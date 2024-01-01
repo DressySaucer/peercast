@@ -2,7 +2,7 @@
     "name": "peercast",
     "productName": "Peercast",
     "bundleID": "com.peercast.Peercast",
-    "version": "0.1.0",
+    "version": "0.3.0",
     "description": "Electron-based remote desktop application",
     "main": "dist/electron/main.js",
     "scripts": {

@@ -1,21 +1,113 @@
-#connect-form {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform-origin: center;
-    transform: translate(-50%, -50%);
-    width: 50vw;
+body {
+    background: rgb(230, 230, 230);
+    background-size: cover;
+}
+
+#connect {
+    display: grid;
+    grid-template-columns: repeat(4, calc(100vw / 4));
+    grid-template-rows: repeat(5, calc(100vh / 5));
+}
+
+#connect-container {
+    grid-column: 2 / -2;
+    grid-row: 2 / -2;
+    background-color: white;
+    border-radius: 1rem;
+    margin: -1em;
+    padding: 2em;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
     display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#connection-selection {
+    grid-column: 2;
+}
+
+#connect-form {
+    transform-origin: center;
+    height: 3em;
+    display: flex;
+    gap: 0.5em;
 }
 
 #connect-input {
     min-width: 0;
     flex: auto;
+    padding: 1em;
+    font-size: 0.9rem;
+    border-radius: 0.5em;
+    border-style: solid;
+    border-color: grey;
+    border-width: 0.1rem;
 }
 
 #connect-button {
+    width: 15%;
+    display: inline-block;
+    border: none;
+    border-radius: 0.5rem;
+    background: blue;
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+#connect-button:hover {
+    opacity: 0.8;
+}
+
+#divider {
+    position: relative;
+    height: 0.05em;
+    width: calc(100% - 2em);
+    left: 1em;
+    background: rgba(160, 160, 160, 0.7);
+}
+
+#divider::after {
+    display: block;
+    position: relative;
+    color: grey;
+    content: "or";
+    left: 50%;
+    width: 1.5em;
+    text-align: center;
+    transform: translateX(-50%);
+    bottom: 0.6em;
+    background: white;
+}
+
+#id-box {
+    margin: 0 5%;
+    position: relative;
+    background: rgba(210, 210, 210, 0.5);
+    padding: 1rem;
+    border-radius: 1rem;
+    display: flex;
+    gap: 2.5rem;
+}
+
+#id-box h2 {
+    margin: 0;
+    display: inline-block;
+    color: grey;
+    font-size: 1.25rem;
 }
 
 #connect-id {
-    padding-left: 0.5em;
+    margin: 0 1em 0 0;
+}
+
+#connect-pw {
+    padding-left: 0.5rem;
+    border-left: solid grey;
+}
+
+#id-box p {
+    margin: 0;
+    font-weight: bold;
+    font-size: 1.5rem;
 }
