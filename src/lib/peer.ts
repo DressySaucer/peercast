@@ -3,7 +3,8 @@ import {
     ChromiumGetUserMedia,
     ChromiumMediaStreamConstraints,
 } from "./desktop-capture";
-import generateId from "./connection-id";
+import { generateId } from "./connection-id";
+import { generatePassword } from "./connection-pw";
 import "./api";
 
 const servers = {
@@ -19,6 +20,8 @@ const servers = {
 
 class Peer {
     connectionId: number;
+
+    connectionPassword: string;
 
     socket: Socket; // remember to fix types
 
@@ -132,6 +135,8 @@ class Peer {
 
     constructor() {
         this.connectionId = generateId();
+
+        this.connectionPassword = generatePassword();
 
         /** Open socket.io socket to signalling server */
         this.socket = io("wss://server.peercast.co.uk/", {

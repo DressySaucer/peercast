@@ -56,7 +56,7 @@ const Connect = () => {
                     </div>
                     <div id="connect-pw">
                         <h2>Your password</h2>
-                        <p>abcdefgh</p>
+                        <p>{globals.peer.connectionPassword}</p>
                     </div>
                 </div>
             </div>

@@ -2,11 +2,6 @@
 @import "connect.css";
 @import "remote.css";
 
-@font-face {
-    font-family: Rubik;
-    src: url("../static/common/Rubik-Regular.ttf");
-}
-
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap");
 
 body {

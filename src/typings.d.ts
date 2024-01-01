@@ -8,3 +8,7 @@ declare module "*vinput.node" {
     function mouseUp(x: number, y: number): undefined;
     function scroll(pixelsY: number, pixelsX: number): undefined;
 }
+
+declare module "test" {
+    function abcd(max: number): number;
+}
