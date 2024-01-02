@@ -8,14 +8,20 @@ const Connect = () => {
     const navigate = useNavigate();
     // const location = useLocation();
     const [targetID, setTargetID] = useState("");
+    const [targetPW, setTargetPW] = useState("");
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!targetID || !globals.peer) return;
-        globals.peer!.connect(Number(targetID)); // remember to remove null assertion
-        console.log(globals.peer.remoteStream);
-        navigate("/remote");
+        globals.peer!.connect(Number(targetID), targetPW); // remember to remove null assertion
     };
+
+    window.addEventListener("syn-success", () => {
+        navigate("/remote");
+    });
+    window.addEventListener("syn-failed", () => {
+        console.log("Failed to connect to peer");
+    });
 
     function formatID(id: number) {
         const str = String(id);
@@ -42,6 +48,13 @@ const Connect = () => {
                         id="connect-input"
                         type="text"
                         placeholder="Session Code (e.g. 1 234 567 890)"
+                    />
+                    <input
+                        value={targetPW}
+                        onChange={(e) => setTargetPW(e.target.value)}
+                        id="connect-input"
+                        type="text"
+                        placeholder="Session Password (e.g. abcdefgh)"
                     />
                     <button id="connect-button" type="submit">
                         Connect

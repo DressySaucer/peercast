@@ -100,6 +100,8 @@ class Peer {
 
         console.log("Offer:", offer);
         this.socket.emit("Offer", JSON.stringify(offer));
+
+        this.socket.emit("Response", JSON.stringify({ success: true }));
     }
 
     private sendICECandidate(ev: RTCPeerConnectionIceEvent) {
@@ -160,7 +162,16 @@ class Peer {
         };
 
         /** Assigning handlers for socket.io signalling events */
-        this.socket.on("peer-connect", () => this.handleConnectionRequest());
+        this.socket.on("peer-connect", (password) => {
+            if (password != this.connectionPassword) {
+                this.socket.emit(
+                    "Response",
+                    JSON.stringify({ success: false }),
+                );
+                return;
+            }
+            this.handleConnectionRequest();
+        });
         this.socket.on("Offer", (data: string) =>
             this.handleIncomingOffer(data),
         );
@@ -170,12 +181,20 @@ class Peer {
         this.socket.on("ICE Candidate", (data: string) =>
             this.handleICECandidate(data),
         );
+        this.socket.on("Response", (data: string) => {
+            const response = JSON.parse(data);
+            if (!response.success) {
+                window.dispatchEvent(new Event("syn-failed"));
+            } else {
+                window.dispatchEvent(new Event("syn-success"));
+            }
+        });
 
         this.remoteStream = new MediaStream();
     }
 
-    async connect(targetId: number) {
-        this.socket.emit("peer-connect", targetId);
+    async connect(targetId: number, targetPW: string) {
+        this.socket.emit("peer-connect", targetId, targetPW);
     }
 }
 
