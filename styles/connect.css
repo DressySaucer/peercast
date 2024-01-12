@@ -1,25 +1,64 @@
 body {
-    background: rgb(230, 230, 230);
+    background: linear-gradient(315deg, #eaeaec, #b4b4bb);
     background-size: cover;
 }
 
+h2,
+p {
+    color: #363946;
+}
+
 #connect {
-    display: grid;
-    grid-template-columns: repeat(4, calc(100vw / 4));
-    grid-template-rows: repeat(5, calc(100vh / 5));
+    height: 100vh;
+}
+
+#header {
+    background: white;
+    width: 100vw;
+    height: 75px;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}
+
+#account-container {
+    width: fit-content;
+    margin-right: 1rem;
+}
+
+#login {
+    display: inline-block;
+    padding: 0.5em;
+    border: none;
+    border-radius: 0.5rem;
+    background: #635dff;
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+#sign-up {
+    display: inline-block;
+    padding: 0.5em;
+    margin-right: 0.5em;
+    border: none;
+    border-radius: 0.5rem;
+    background: #363946;
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
 }
 
 #connect-container {
-    grid-column: 2 / -2;
-    grid-row: 2 / -2;
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
     background-color: white;
     border-radius: 1rem;
-    margin: -1em;
     padding: 2em;
     box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
 }
 
 #connection-selection {
@@ -28,6 +67,7 @@ body {
 
 #connect-form {
     transform-origin: center;
+    margin: 1.5rem 0;
     height: 3em;
     display: flex;
     gap: 0.5em;
@@ -44,12 +84,16 @@ body {
     border-width: 0.1rem;
 }
 
+#connect-input:focus {
+    outline-color: #635dff;
+}
+
 #connect-button {
     width: 15%;
     display: inline-block;
     border: none;
     border-radius: 0.5rem;
-    background: blue;
+    background: #635dff;
     color: white;
     font-weight: 600;
     font-size: 1rem;
@@ -60,6 +104,7 @@ body {
 }
 
 #divider {
+    margin: 2rem 0;
     position: relative;
     height: 0.05em;
     width: calc(100% - 2em);
@@ -81,9 +126,8 @@ body {
 }
 
 #id-box {
-    margin: 0 5%;
     position: relative;
-    background: rgba(210, 210, 210, 0.5);
+    background: #eaeaec;
     padding: 1rem;
     border-radius: 1rem;
     display: flex;
@@ -94,7 +138,7 @@ body {
     margin: 0;
     display: inline-block;
     color: grey;
-    font-size: 1.25rem;
+    font-size: 1rem;
 }
 
 #connect-id {
@@ -103,11 +147,21 @@ body {
 
 #connect-pw {
     padding-left: 0.5rem;
-    border-left: solid grey;
+    border-left: solid #898994;
 }
 
 #id-box p {
     margin: 0;
-    font-weight: bold;
     font-size: 1.5rem;
+}
+
+#connect-container > h2 {
+    margin: 0;
+    font-size: 1.15rem;
+}
+
+#connect-container > p {
+    font-size: 0.95rem;
+    margin: 0.25rem 0 1.5rem;
+    color: #747481;
 }

@@ -35,8 +35,18 @@ const Connect = () => {
 
     return (
         <div id="connect">
+            <div id="header">
+                <div id="account-container">
+                    <button id="sign-up">sign up</button>
+                    <button id="login">login</button>
+                </div>
+            </div>
             <div id="connect-container">
                 <h2>Remote Access</h2>
+                <p>
+                    Enter session code and password in order to open a
+                    connection and gain access to your peer's computer
+                </p>
                 <form
                     id="connect-form"
                     autoComplete="off"
@@ -57,11 +67,15 @@ const Connect = () => {
                         placeholder="Session Password (e.g. abcdefgh)"
                     />
                     <button id="connect-button" type="submit">
-                        Connect
+                        connect
                     </button>
                 </form>
                 <div id="divider"></div>
-                <h2>Your ID and Password</h2>
+                <h2>ID and Password</h2>
+                <p>
+                    Share your id and password with a peer to grant them access
+                    to your machine and start receiving support
+                </p>
                 <div id="id-box">
                     <div id="connect-id">
                         <h2>Your ID</h2>
