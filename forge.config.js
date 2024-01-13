@@ -1,6 +1,12 @@
 module.exports = {
     packagerConfig: {
         asar: true,
+        protocols: [
+            {
+                name: "Peercast",
+                schemes: ["peercast"],
+            },
+        ],
     },
     rebuildConfig: {},
     makers: [

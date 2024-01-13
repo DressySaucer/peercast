@@ -52,7 +52,7 @@ p {
 #connect-container {
     position: relative;
     left: 50%;
-    top: 50%;
+    top: calc(50% - 37.5px);
     transform: translate(-50%, -50%);
     width: 50%;
     background-color: white;

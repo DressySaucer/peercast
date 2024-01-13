@@ -6,6 +6,12 @@ import {
 import vinput from "../bin/vinput.node";
 import { VInputAPI } from "../lib/api";
 
+const authAPI = {
+    login: () => ipcRenderer.send("auth:login"),
+};
+
+process.once("loaded", () => contextBridge.exposeInMainWorld("auth", authAPI));
+
 const vinputAPI: VInputAPI = {
     keyUp: vinput.keyUp,
     keyDown: vinput.keyDown,
