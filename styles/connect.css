@@ -1,8 +1,3 @@
-body {
-    background: linear-gradient(315deg, #eaeaec, #c9c9cf);
-    background-size: cover;
-}
-
 h2,
 p {
     color: #363946;
@@ -12,13 +7,38 @@ button:hover {
     background-image: linear-gradient(rgb(0 0 0/10%) 0 0) !important;
 }
 
-#connect {
+#navbar {
+    display: flex;
+    position: relative;
+    width: 80px;
+    height: 100%;
+    flex-direction: column;
+    align-content: space-between;
+    align-items: center;
+    background: linear-gradient(#454eff, #635dff);
+}
+
+#navbar-top {
+}
+
+#navbar-bottom {
+}
+
+#main-window {
+    border-radius: 10px 0 0 10px;
+    position: absolute;
+    top: 0;
+    left: 70px;
+    width: calc(100vw - 70px);
     height: 100vh;
+    overflow: hidden;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
 }
 
 #header {
+    position: relative;
     background: white;
-    width: 100vw;
+    width: 100%;
     height: 60px;
     display: flex;
     justify-content: space-between;
@@ -36,15 +56,6 @@ button:hover {
     left: 50%;
     top: 30px;
     transform: translate(-50%, -50%);
-}
-
-#banner {
-    background: url("../static/common/peercast-banner.svg");
-    background-size: contain;
-    background-repeat: no-repeat;
-    height: 40px;
-    width: calc(740px / 3);
-    margin: 10px 0;
 }
 
 #account-container {
@@ -106,6 +117,36 @@ button:hover {
     transform: translate(-50%, 0);
 }
 
+#wip-banner {
+    width: 100%;
+    height: 30px;
+    background: #ffcccc;
+}
+
+#wip-banner > div {
+    width: fit-content;
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#wip-banner > div * {
+    display: inline-block;
+    font-size: 0.85rem;
+    margin: 0;
+}
+
+#wip-banner > div > a {
+    margin-left: 0.5rem;
+    color: #454eff;
+}
+
+#connect {
+    height: calc(100% - 60px);
+    background: white;
+}
+
 #connect-container {
     position: relative;
     left: 50%;
@@ -113,9 +154,9 @@ button:hover {
     transform: translate(-50%, -50%);
     width: 700px;
     background-color: white;
+    border: 1px solid #eaeaec;
     border-radius: 1rem;
     padding: 2em;
-    box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
 }
 
 #connection-selection {
