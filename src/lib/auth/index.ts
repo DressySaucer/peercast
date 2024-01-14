@@ -3,29 +3,112 @@
  * import jwtdecode from "jwt-decode";
  * */
 import axios from "axios";
-import keytar from "keytar";
-import url from "url";
-import os from "os";
-
-const auth0Domain = "dev-sttjehio2wsuhqmc.us.auth0.com";
-const clientId = "fLXIdu4IC1mmrD7G1oN4iXIPm9LJ73s0";
-const redirectUri = "peercast://redirect";
-
-const keytarService = "peercast-oauth";
-const keytarAccount = os.userInfo().username;
+import { auth0Domain, clientId, redirectUri } from "./auth-env.json";
+import {
+    registerSession,
+    setCachedToken,
+    getCachedToken,
+    deleteCachedToken,
+} from "./cache";
 
 type Token = string | null;
+type GrantType = "code" | "refresh";
 
 let accessToken: Token = null;
 let idToken: Token = null;
 let refreshToken: Token = null;
 
-export function getAccessToken() {
-    return accessToken;
+export async function getAccessToken() {
+    if (accessToken) return accessToken;
+
+    const cachedToken = await getCachedToken("access");
+    if (cachedToken) return cachedToken;
+
+    refreshToken = await getRefreshToken();
+    if (!refreshToken) {
+        console.log("No refresh token available");
+        return null;
+    }
+
+    try {
+        await exchangeToken("refresh", refreshToken);
+        return accessToken;
+    } catch (err) {
+        console.log("Token exchange failed");
+        return null;
+    }
 }
 
-export function getIdToken() {
-    return idToken;
+export async function getIdToken() {
+    if (idToken) return idToken;
+
+    const cachedToken = await getCachedToken("id");
+    if (cachedToken) return cachedToken;
+
+    return null;
+}
+
+export async function getRefreshToken() {
+    if (refreshToken) return refreshToken;
+
+    const cachedToken = await getCachedToken("refresh");
+    if (cachedToken) return cachedToken;
+
+    return null;
+}
+
+export async function exchangeToken(
+    grantType: GrantType,
+    token: NonNullable<Token>,
+) {
+    let exchangeOptions;
+
+    if (grantType == "code") {
+        exchangeOptions = {
+            grant_type: "authorization_code",
+            client_id: clientId,
+            code: token,
+            redirect_uri: redirectUri,
+        };
+    }
+
+    if (grantType == "refresh") {
+        exchangeOptions = {
+            grant_type: "refresh_token",
+            client_id: clientId,
+            refresh_token: token,
+        };
+    }
+
+    const options = {
+        method: "POST",
+        url: `https://${auth0Domain}/oauth/token`,
+        headers: { "content-type": "application/json" },
+        data: exchangeOptions,
+    };
+
+    try {
+        const response = await axios(options);
+
+        accessToken = response.data.access_token;
+        idToken = response.data.id_token;
+        refreshToken = response.data.refresh_token;
+
+        if (!accessToken) throw new Error("No / invalid access token recieved");
+
+        if (!refreshToken)
+            throw new Error("No / invalid refresh token recieved");
+
+        setCachedToken("access", accessToken);
+        setCachedToken("refresh", refreshToken);
+    } catch (err) {
+        await logout();
+        throw err;
+    }
+}
+
+export async function isAuthenticated() {
+    return accessToken != null || (await getCachedToken("access")) != null;
 }
 
 export function getAuthUrl() {
@@ -43,8 +126,9 @@ export function getAuthUrl() {
     );
 }
 
+/*
 export async function refreshTokens() {
-    const refreshToken = await keytar.getPassword(keytarService, keytarAccount);
+    refreshToken = await keytar.getPassword(keytarService, keytarAccount);
 
     if (refreshToken) {
         const refreshOptions = {
@@ -63,6 +147,16 @@ export async function refreshTokens() {
 
             accessToken = response.data.access_token;
             idToken = response.data.id_token;
+            refreshToken = response.data.refresh_token;
+
+            if (!refreshToken)
+                throw new Error("No / invalid refresh token recieved");
+
+            await keytar.setPassword(
+                keytarService,
+                keytarAccount,
+                refreshToken,
+            );
         } catch (error) {
             await logout();
 
@@ -113,9 +207,12 @@ export async function loadTokens(callbackURL: string) {
         throw error;
     }
 }
+*/
 
 export async function logout() {
-    await keytar.deletePassword(keytarService, keytarAccount);
+    await deleteCachedToken("access");
+    await deleteCachedToken("id");
+    await deleteCachedToken("refresh");
     accessToken = null;
     idToken = null;
     refreshToken = null;
@@ -124,3 +221,5 @@ export async function logout() {
 export function getLogoutUrl() {
     return `https://${auth0Domain}/v2/logout`;
 }
+
+export { registerSession };

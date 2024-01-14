@@ -8,6 +8,8 @@ import { VInputAPI } from "../lib/api";
 
 const authAPI = {
     login: () => ipcRenderer.send("auth:login"),
+    isAuthenticated: async (): Promise<boolean> =>
+        await ipcRenderer.invoke("auth:isAuthenticated"),
 };
 
 process.once("loaded", () => contextBridge.exposeInMainWorld("auth", authAPI));

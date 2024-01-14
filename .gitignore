@@ -5,3 +5,5 @@ node_modules
 certs
 out
 .DS_STORE
+
+auth-env.json

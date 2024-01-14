@@ -1,4 +1,10 @@
-import { app, BrowserWindow, desktopCapturer, ipcMain } from "electron";
+import {
+    app,
+    BrowserWindow,
+    desktopCapturer,
+    ipcMain,
+    session,
+} from "electron";
 import * as auth from "../lib/auth";
 import path from "path";
 
@@ -15,7 +21,7 @@ if (process.defaultApp) {
 let mainWindow: BrowserWindow | null = null;
 let authWindow: BrowserWindow | null = null;
 
-async function createWindow() {
+function createWindow() {
     mainWindow = new BrowserWindow({
         width: 800,
         height: 600,
@@ -35,12 +41,6 @@ async function createWindow() {
             });
         });
 
-    try {
-        await auth.refreshTokens();
-    } catch (err) {
-        console.log("No available refresh token");
-    }
-
     mainWindow.loadFile(path.resolve(__dirname, "..", "static", "index.html"));
 
     mainWindow.on("closed", () => {
@@ -48,10 +48,17 @@ async function createWindow() {
     });
 }
 
+async function start() {
+    const accessToken = await auth.getAccessToken();
+    if (!accessToken) console.log("No available refresh / access token");
+
+    createWindow();
+}
+
 function createAuthWindow() {
     authWindow = new BrowserWindow({
         width: 600,
-        height: 1000,
+        height: 800,
         webPreferences: {
             nodeIntegration: false,
             contextIsolation: true,
@@ -81,10 +88,11 @@ function destroyAuthWindow() {
 
 app.on("open-url", async (event, url) => {
     if (mainWindow && authWindow) {
-        await auth.loadTokens(url);
+        const code = new URL(url).searchParams.get("code");
+        if (code) await auth.exchangeToken("code", code);
         destroyAuthWindow();
-        mainWindow.loadURL(
-            "file://" + path.resolve(__dirname, "..", "static", "index.html"),
+        mainWindow.loadFile(
+            path.resolve(__dirname, "..", "static", "index.html"),
         );
         mainWindow.focus();
     }
@@ -118,14 +126,18 @@ const createRemoteWindow = () => {
 */
 
 app.whenReady().then(() => {
-    ipcMain.on("auth:login", () => {
-        if (!authWindow) createAuthWindow();
-        else authWindow.focus();
+    auth.registerSession(session.fromPartition("persist:peercast"));
+
+    ipcMain.on("auth:login", async () => {
+        if (!authWindow) {
+            const accessToken = await auth.getAccessToken();
+            if (!accessToken) createAuthWindow();
+        } else authWindow.focus();
     });
 
-    app.on("activate", () => {
-        if (BrowserWindow.getAllWindows().length === 0) createWindow();
-    });
+    ipcMain.handle("auth:isAuthenticated", auth.isAuthenticated);
+
+    start();
 });
 
 app.on("window-all-closed", () => app.quit());

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import globals from "../../../lib/globals";
 // import { useAuth0 } from "@auth0/auth0-react";
@@ -7,11 +7,18 @@ declare global {
     interface Window {
         auth: {
             login: () => void;
+            isAuthenticated: () => Promise<boolean>;
         };
     }
 }
 
 const Header = () => {
+    const [isAuthenticated, setAuth] = useState(false);
+
+    useEffect(() => {
+        window.auth.isAuthenticated().then((truth) => setAuth(truth));
+    }, []);
+
     /*
     const { loginWithRedirect, isAuthenticated, getAccessTokenSilently } =
         useAuth0();
@@ -19,6 +26,7 @@ const Header = () => {
     useEffect(() => {
         console.log(getAccessTokenSilently());
     }, []);
+        */
 
     if (isAuthenticated)
         return (
@@ -29,15 +37,24 @@ const Header = () => {
             </div>
         );
 
-        */
-
     return (
         <div id="header">
-            <div id="account-container">
-                <button id="sign-up">sign up</button>
-                <button id="login" onClick={() => window.auth.login()}>
-                    login
-                </button>
+            <div id="right">
+                <div id="auth-container">
+                    <button className="auth-button" id="sign-up">
+                        Sign Up
+                    </button>
+                    <button
+                        className="auth-button"
+                        id="login"
+                        onClick={() => window.auth.login()}
+                    >
+                        Log In
+                    </button>
+                    <button id="account-button">
+                        <div></div>
+                    </button>
+                </div>
             </div>
         </div>
     );
@@ -87,7 +104,7 @@ const ConnectContainer = () => {
                     placeholder="Session Password (e.g. abcdefgh)"
                 />
                 <button id="connect-button" type="submit">
-                    connect
+                    Connect
                 </button>
             </form>
             <div id="divider"></div>

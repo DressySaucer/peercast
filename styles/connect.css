@@ -1,11 +1,15 @@
 body {
-    background: linear-gradient(315deg, #eaeaec, #b4b4bb);
+    background: linear-gradient(315deg, #eaeaec, #c9c9cf);
     background-size: cover;
 }
 
 h2,
 p {
     color: #363946;
+}
+
+button:hover {
+    background-image: linear-gradient(rgb(0 0 0/10%) 0 0) !important;
 }
 
 #connect {
@@ -15,44 +19,76 @@ p {
 #header {
     background: white;
     width: 100vw;
-    height: 75px;
+    height: 60px;
     display: flex;
     justify-content: right;
     align-items: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 #account-container {
-    width: fit-content;
+    height: 100%;
     margin-right: 1rem;
 }
 
-#login {
+#right {
+    height: 100%;
+    display: flex;
+    gap: 1rem;
+}
+
+#auth-container {
+    display: flex;
+    gap: 0.6rem;
+    align-items: stretch;
+    padding: 0.8rem 0;
+    margin-right: 0.6rem;
+}
+
+.auth-button {
     display: inline-block;
-    padding: 0.5em;
     border: none;
-    border-radius: 0.5rem;
-    background: #635dff;
+    padding: 0 0.8rem;
+    border-radius: 0.4rem;
+    font-weight: 700;
+    font-size: 0.8rem;
     color: white;
-    font-weight: 600;
-    font-size: 1rem;
+}
+
+#login {
+    background: #454eff;
 }
 
 #sign-up {
-    display: inline-block;
-    padding: 0.5em;
-    margin-right: 0.5em;
+    background: #eaeaec;
+    color: #363946;
+}
+
+#account-button {
+    aspect-ratio: 1;
+    background: none;
     border: none;
-    border-radius: 0.5rem;
-    background: #363946;
-    color: white;
-    font-weight: 600;
-    font-size: 1rem;
+    border-radius: 0.4rem;
+    padding: 0;
+    margin: 0;
+}
+
+#account-button div {
+    position: relative;
+    background: url("../static/common/account-icon.svg");
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 20px;
+    width: 20px;
+    left: 50%;
+    transform: translate(-50%, 0);
 }
 
 #connect-container {
     position: relative;
     left: 50%;
-    top: calc(50% - 37.5px);
+    top: calc(50% - 25px);
     transform: translate(-50%, -50%);
     width: 50%;
     background-color: white;
@@ -85,22 +121,18 @@ p {
 }
 
 #connect-input:focus {
-    outline-color: #635dff;
+    outline-color: #454eff;
 }
 
 #connect-button {
     width: 15%;
     display: inline-block;
     border: none;
-    border-radius: 0.5rem;
-    background: #635dff;
+    border-radius: 0.4rem;
+    background: #454eff;
     color: white;
     font-weight: 600;
     font-size: 1rem;
-}
-
-#connect-button:hover {
-    opacity: 0.8;
 }
 
 #divider {
@@ -129,7 +161,7 @@ p {
     position: relative;
     background: #eaeaec;
     padding: 1rem;
-    border-radius: 1rem;
+    border-radius: 0.75rem;
     display: flex;
     gap: 2.5rem;
 }
