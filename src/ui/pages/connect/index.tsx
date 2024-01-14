@@ -16,7 +16,8 @@ const Header = () => {
     const [isAuthenticated, setAuth] = useState(false);
 
     useEffect(() => {
-        window.auth.isAuthenticated().then((truth) => setAuth(truth));
+        //window.auth.isAuthenticated().then((truth) => setAuth(truth));
+        setAuth(false);
     }, []);
 
     /*
@@ -39,6 +40,10 @@ const Header = () => {
 
     return (
         <div id="header">
+            <div id="left"></div>
+            <div id="center">
+                <div id="banner"></div>
+            </div>
             <div id="right">
                 <div id="auth-container">
                     <button className="auth-button" id="sign-up">

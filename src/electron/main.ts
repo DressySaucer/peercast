@@ -23,13 +23,17 @@ let authWindow: BrowserWindow | null = null;
 
 function createWindow() {
     mainWindow = new BrowserWindow({
-        width: 800,
-        height: 600,
+        width: 1200,
+        height: 800,
+        minWidth: 830,
+        minHeight: 560,
         webPreferences: {
             nodeIntegration: true,
             preload: path.resolve(__dirname, "preload.js"),
         },
     });
+
+    mainWindow.maximize();
 
     desktopCapturer
         .getSources({ types: ["window", "screen"] })

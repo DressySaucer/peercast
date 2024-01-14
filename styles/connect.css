@@ -21,9 +21,30 @@ button:hover {
     width: 100vw;
     height: 60px;
     display: flex;
-    justify-content: right;
+    justify-content: space-between;
     align-items: center;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+#left {
+}
+
+#center {
+    display: block;
+    position: absolute;
+    height: 60px;
+    left: 50%;
+    top: 30px;
+    transform: translate(-50%, -50%);
+}
+
+#banner {
+    background: url("../static/common/peercast-banner.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 40px;
+    width: calc(740px / 3);
+    margin: 10px 0;
 }
 
 #account-container {
@@ -90,7 +111,7 @@ button:hover {
     left: 50%;
     top: calc(50% - 25px);
     transform: translate(-50%, -50%);
-    width: 50%;
+    width: 700px;
     background-color: white;
     border-radius: 1rem;
     padding: 2em;
