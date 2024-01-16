@@ -8,20 +8,130 @@ button:hover {
 }
 
 #navbar {
-    display: flex;
     position: relative;
     width: 80px;
     height: 100%;
-    flex-direction: column;
-    align-content: space-between;
-    align-items: center;
     background: linear-gradient(#454eff, #635dff);
 }
 
+#navbar > div {
+    width: 70px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
 #navbar-top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+#navbar-icon {
+    width: 40px;
+    height: 40px;
+    background: url("../static/common/logo-mono.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+#navbar-divider {
+    height: 1px;
+    width: 45px;
+    background: white;
+}
+
+#navbar-top-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.navbar-button {
+    padding: 15px;
+    border-radius: 1rem;
+    border: none;
+    background: none;
+}
+
+.navbar-button > div {
+    height: 20px;
+    width: 20px;
+}
+
+.navbar-button-ex {
+    padding: 12.5px;
+    border-radius: 1rem;
+    border: none;
+    background: none;
+}
+
+.navbar-button-ex > div {
+    height: 25px;
+    width: 25px;
+}
+
+#home-page-button {
+    background: #00000024;
+}
+
+#home-page-button > div {
+    background: url("../static/common/home-icon.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#connect-page-button > div {
+    background: url("../static/common/connect-icon-inactive.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#devices-page-button > div {
+    background: url("../static/common/devices-icon-inactive.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#dev-page-button > div {
+    background: url("../static/common/dev-icon-inactive.svg");
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 #navbar-bottom {
+    margin: 0 10px;
+    margin-bottom: 30px;
+}
+
+#support-page-button > div {
+    background: url("../static/common/support-icon-inactive.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#settings-page-button > div {
+    background: url("../static/common/settings-icon-inactive.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#help-page-button > div {
+    background: url("../static/common/help-icon-inactive.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#navbar-toggle-button > div {
+    background: url("../static/common/navbar-expand-icon.svg");
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 #main-window {
@@ -168,22 +278,41 @@ button:hover {
     margin: 1.5rem 0;
     height: 3em;
     display: flex;
+    justify-content: stretch;
     gap: 0.5em;
 }
 
+#connect-form > div {
+    flex-grow: 1;
+}
+
 #connect-input {
-    min-width: 0;
-    flex: auto;
+    box-sizing: border-box;
+    width: 100%;
     padding: 1em;
     font-size: 0.9rem;
     border-radius: 0.5em;
     border-style: solid;
-    border-color: grey;
-    border-width: 0.1rem;
+    border-color: #eaeaec;
+    border-width: 1px;
+    outline-width: medium;
 }
 
 #connect-input:focus {
-    outline-color: #454eff;
+    border-color: #454eff;
+    outline-style: none;
+}
+
+.input-title {
+    height: fit-content;
+    width: fit-content;
+    margin: 0;
+    padding: 0.25em;
+    position: relative;
+    left: 1em;
+    bottom: 3.55rem;
+    font-size: 0.6rem;
+    background: white;
 }
 
 #connect-button {
@@ -203,13 +332,13 @@ button:hover {
     height: 0.05em;
     width: calc(100% - 2em);
     left: 1em;
-    background: rgba(160, 160, 160, 0.7);
+    background: #eaeaec;
 }
 
 #divider::after {
     display: block;
     position: relative;
-    color: grey;
+    color: #898994;
     content: "or";
     left: 50%;
     width: 1.5em;
@@ -221,7 +350,7 @@ button:hover {
 
 #id-box {
     position: relative;
-    background: #eaeaec;
+    background: #f4f4f5;
     padding: 1rem;
     border-radius: 0.75rem;
     display: flex;

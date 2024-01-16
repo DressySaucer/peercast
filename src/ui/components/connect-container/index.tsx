@@ -30,20 +30,26 @@ export function ConnectContainer() {
                 and gain access to your peer's computer
             </p>
             <form id="connect-form" autoComplete="off" onSubmit={handleSubmit}>
-                <input
-                    value={targetID}
-                    onChange={(e) => setTargetID(e.target.value)}
-                    id="connect-input"
-                    type="text"
-                    placeholder="Session Code (e.g. 1 234 567 890)"
-                />
-                <input
-                    value={targetPW}
-                    onChange={(e) => setTargetPW(e.target.value)}
-                    id="connect-input"
-                    type="text"
-                    placeholder="Session Password (e.g. abcdefgh)"
-                />
+                <div>
+                    <input
+                        value={targetID}
+                        onChange={(e) => setTargetID(e.target.value)}
+                        id="connect-input"
+                        type="text"
+                        placeholder="Session Code (e.g. 1 234 567 890)"
+                    />
+                    <p className="input-title">Session Code</p>
+                </div>
+                <div>
+                    <input
+                        value={targetPW}
+                        onChange={(e) => setTargetPW(e.target.value)}
+                        id="connect-input"
+                        type="text"
+                        placeholder="Session Password (e.g. abcdefgh)"
+                    />
+                    <p className="input-title">Session Password</p>
+                </div>
                 <button id="connect-button" type="submit">
                     Connect
                 </button>
@@ -51,7 +57,7 @@ export function ConnectContainer() {
             <div id="divider"></div>
             <h2>ID and Password</h2>
             <p>
-                Share your id and password with a peer to grant them access to
+                Share your ID and password with a peer to grant them access to
                 your machine and start receiving support
             </p>
             <div id="id-box">

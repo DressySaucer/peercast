@@ -1,12 +1,14 @@
 module.exports = {
     packagerConfig: {
         asar: true,
+        osxSign: {},
         protocols: [
             {
                 name: "Peercast",
                 schemes: ["peercast"],
             },
         ],
+        icon: "./static/icons/icon",
     },
     rebuildConfig: {},
     makers: [
@@ -17,6 +19,9 @@ module.exports = {
         {
             name: "@electron-forge/maker-dmg",
             platforms: ["darwin"],
+            config: {
+                icon: "./static/icons/icon.icns",
+            },
         },
     ],
     plugins: [
